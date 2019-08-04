@@ -15,3 +15,4 @@ Deve-se ser entregue um relatório técnico, desenvolvido por meio da plataforma
 - [Introdução as Redes Neurais Convolucionais](http://deeplearningbook.com.br/introducao-as-redes-neurais-convolucionais/)
 - [Building a Convolutional Neural Network (CNN) in Keras](https://towardsdatascience.com/building-a-convolutional-neural-network-cnn-in-keras-329fbbadc5f5)
 - [O Jupyter notebook](https://cadernodelaboratorio.com.br/2018/05/24/o-jupyter-notebook/)
+- [Dataset](https://www.dropbox.com/s/dxyfkk9fea7y5tq/dogs-and-cats-dataset.zip?dl=0)
