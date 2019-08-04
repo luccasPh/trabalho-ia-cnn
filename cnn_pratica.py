@@ -12,7 +12,7 @@ from keras.layers import Conv2D
 from keras.layers import MaxPooling2D
 from keras.layers import Flatten
 from keras.layers import Dense
-from keras.preprocessing.image import ImageDataGenerator
+from keras.preprocessing.image import 7ImageDataGenerator
 import numpy as np
 from keras.preprocessing import image
 from keras.models import model_from_json
@@ -58,16 +58,16 @@ def dataset():
 
 #gerar o modelo e carrega a base de treino e teste
 
-def trainer_model():
-    print("[INFO] criando o CNN...")
-    classifier = build()
+
+print("[INFO] criando o CNN...")
+classifier = build()
     
-    print("[INFO] Carregado o banco de imagems...")
-    trainer, test = dataset()
+print("[INFO] Carregado o banco de imagems...")
+trainer, test = dataset()
     
     #Fitting o CNN com as imagems
-    print("[INFO] treinado o CNN...")
-    classifier.fit_generator(trainer,
+print("[INFO] treinado o CNN...")
+classifier.fit_generator(trainer,
                              steps_per_epoch=8000,
                              epochs=10,
                              validation_data=test,
@@ -75,32 +75,21 @@ def trainer_model():
     
     #salar a cnn treinada e os pessos
     
-    model = classifier.to_json()
-    with open("model.json", "w") as file:
-        file.write(model)
+model = classifier.to_json()
+with open("model.json", "w") as file:
+    file.write(model)
     
-    classifier.save_weights("weights.h5")
-
-def prediction(i):
-    file = open('model.json', 'r')
-    json = file.read()
-    file.close()
-    model = model_from_json(json)
-    model.load_weights("weights.h5")
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-    
-    test = image.load_img('dataset/evaluate_set/'+str(i)+'.jpg', target_size = (64,64))
-    test = image.img_to_array(test)
-    test = np.expand_dims(test, axis=0)
-    
-    res = model.predict(test)
-    print("dog") if res[0][0] == 1 else print("cat")
+classifier.save_weights("weights.h5")
 
 
-#trainer_model()
-print("[INFO] Testando a CNN")
-for i in range(1,8):
-    prediction(i)
+classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    
+test = image.load_img('dataset/cat_or_dog.jpg', target_size = (64,64))
+test = image.img_to_array(test)
+test = np.expand_dims(test, axis=0)
+    
+res = model.predict(test)
+print("dog") if res[0][0] == 1 else print("cat")
 
 
     
