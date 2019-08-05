@@ -12,7 +12,7 @@ from keras.layers import Conv2D
 from keras.layers import MaxPooling2D
 from keras.layers import Flatten
 from keras.layers import Dense
-from keras.preprocessing.image import 7ImageDataGenerator
+from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 from keras.preprocessing import image
 from keras.models import model_from_json
@@ -57,8 +57,7 @@ def dataset():
     return trainer_set, test_set
 
 #gerar o modelo e carrega a base de treino e teste
-
-
+"""
 print("[INFO] criando o CNN...")
 classifier = build()
     
@@ -72,23 +71,30 @@ classifier.fit_generator(trainer,
                              epochs=10,
                              validation_data=test,
                              validation_steps=2000)
-    
-    #salar a cnn treinada e os pessos
-    
+"""
+#salar a cnn treinada e os pessos
+"""    
 model = classifier.to_json()
 with open("model.json", "w") as file:
     file.write(model)
     
 classifier.save_weights("weights.h5")
+"""
 
+with open('model.json','r') as file:
+    model_json = file.read()
+    classifier = model_from_json(model_json)
+    classifier.load_weights('weights.h5')
 
+ 
+# evaluate loaded model on test data
 classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     
 test = image.load_img('dataset/cat_or_dog.jpg', target_size = (64,64))
 test = image.img_to_array(test)
 test = np.expand_dims(test, axis=0)
     
-res = model.predict(test)
+res = classifier.predict(test)
 print("dog") if res[0][0] == 1 else print("cat")
 
 
